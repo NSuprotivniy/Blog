@@ -1,5 +1,8 @@
 <h1><%= @post.title %></h1>
 <p><%= @post.body %></p>
+<p>Posted by <%= link_to @post.user.name, @post.user %></p>
 
-<%= link_to "Edit", edit_post_path %>
-<%= link_to "Delete", post_path, method: :delete %>
+<% if correct_user? %>
+	<%= link_to "Edit", edit_post_path %>
+	<%= link_to "Delete", post_path, method: :delete %>
+<% end %>

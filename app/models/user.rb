@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   validates :password, presence: true,
   										 length: { minimum: 6 }
 
+  has_many :posts, dependent: :destroy
+
 
 	def generate_token(column)
 	  begin

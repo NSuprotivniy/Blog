@@ -7,6 +7,8 @@ class UsersController < ApplicationController
 	end
 
 	def show
+		@user = User.find(params[:id])
+		@posts = @user.posts.all.order("created_at DESC")
 	end
 
 	def new
@@ -39,8 +41,8 @@ class UsersController < ApplicationController
 	end
 
 	def destroy
-		cookies.delete(:auth_token)
 		current_user.destroy
+		cookies.delete(:auth_token)
 		redirect_to root_path
 	end
 

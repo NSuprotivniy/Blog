@@ -1,5 +1,17 @@
-<h3><%= current_user.name %></h3>
-<h5><%= current_user.email %></h5>
-<% if correct_user? %>
-	<%= link_to "Edit profile", edit_user_path(current_user), class: "btn btn-default" %>
-<% end %>
+<div class="row">
+	
+	<div class="col-md-4">
+		<h3><%= @user.name %></h3>
+		<h5><%= @user.email %></h5>
+		<% if correct_user? %>
+			<%= link_to "Edit profile", edit_user_path(current_user), class: "btn btn-default" %>
+		<% end %>
+	</div>
+
+	<div class="col-md-8">
+		<% @posts.each do |post| %>
+			<%= render 'posts/summary', post: post %>
+		<% end %>
+	</div>
+
+</div>
