@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
 	before_action :authenticate!, except: [:index, :show, :new, :create]
+	before_action :correct_user!, only: [:edit, :update, :destroy]
 
 	def index
 	end
@@ -16,10 +17,10 @@ class UsersController < ApplicationController
 		@user = User.new(user_params)
 
 		if @user.save
-			session[:user_id] = @user.id
-			redirect_to root_path, notice: "Welcome board!"
+			cookies.permanent[:auth_token] = @user.auth_token
+			redirect_to root_path, notice: "Welcome aboard!"
 		else
-			flash.now = "Invalid"
+			flash.now.alert = "Invalid"
 			render "new"
 		end
 	end
@@ -32,13 +33,14 @@ class UsersController < ApplicationController
 		if current_user.update(user_params)
 			redirect_to current_user, notice: "Updated"
 		else
-			flash.now = "Invalid"
+			flash.now.alert = "Invalid"
 			render "edit"
 		end
 	end
 
 	def destroy
-		session[:user_id] = nil
+		cookies.delete(:auth_token)
+		current_user.destroy
 		redirect_to root_path
 	end
 

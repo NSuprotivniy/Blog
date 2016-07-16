@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 		@user = User.find_by_email(params[:session][:email])
 
 		if @user && @user.authenticate(params[:session][:password])
-			session[:user_id] = @user.id
+			cookies.permanent[:auth_token] = @user.auth_token
 			redirect_to root_path, notice: "Logged in"
 		else
 			render 'new'
@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
 	end
 
 	def destroy
-		session[:user_id] = nil
+		cookies.delete(:auth_token)
 		redirect_to root_path, notice: "Logged out"
 	end
 end

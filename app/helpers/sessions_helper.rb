@@ -1,7 +1,7 @@
 module SessionsHelper
 
 	def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= User.find_by_auth_token(cookies[:auth_token]) if cookies[:auth_token]
   end
 
 	def authenticate!
@@ -11,4 +11,13 @@ module SessionsHelper
 	def signed_in?
 		!current_user.nil?
 	end
+
+	def correct_user?
+		current_user == User.find(params[:id])
+	end
+
+	def correct_user!
+		redirect_to root_path unless correct_user?
+	end
+
 end

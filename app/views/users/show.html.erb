@@ -1,1 +1,5 @@
-<h1><%= current_user.email %></h1>
+<h3><%= current_user.name %></h3>
+<h5><%= current_user.email %></h5>
+<% if correct_user? %>
+	<%= link_to "Edit profile", edit_user_path(current_user), class: "btn btn-default" %>
+<% end %>
