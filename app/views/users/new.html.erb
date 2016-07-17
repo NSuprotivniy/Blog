@@ -1,4 +1,6 @@
 <%= form_for @user, class: "form-group" do |f| %>
+
+	<%= render 'shared/error_messages', object: @user %>	
 	
 	<div class="form-group">
 		<%= f.label :email %>
@@ -21,4 +23,5 @@
 	</div>
 
 	<%= f.submit "Sign up!", class: "btn btn-default" %>
+
 <% end %>

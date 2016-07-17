@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 	before_action :find_post, only: [:show, :edit, :update, :destroy]
 
 	def index 
-		@posts = Post.all.order("created_at DESC")
+		@posts = Post.paginate(page: params[:page], per_page: 20).order("created_at DESC")
 	end
 
 	def new
@@ -15,6 +15,7 @@ class PostsController < ApplicationController
 		@post = current_user.posts.build(post_params)
 
 		if @post.save
+			flash[:success] = "Looks great!"
 			redirect_to @post
 		else
 			render 'new'
@@ -30,6 +31,7 @@ class PostsController < ApplicationController
 
 	def update
 		if @post.update(post_params)
+			flash[:success] = "Looks great!"
 			redirect_to @post
 		else
 			render 'edit'
@@ -38,7 +40,7 @@ class PostsController < ApplicationController
 
 	def destroy
 		@post.destroy
-		redirect_to posts_path
+		redirect_to root_path
 	end
 
 	private 

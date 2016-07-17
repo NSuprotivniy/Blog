@@ -8,14 +8,17 @@ class SessionsController < ApplicationController
 
 		if @user && @user.authenticate(params[:session][:password])
 			cookies.permanent[:auth_token] = @user.auth_token
-			redirect_to root_path, notice: "Logged in"
+			flash[:success] = "Welcome!"
+			redirect_to root_path
 		else
+			flash.now[:danger] = "Invalid email or password"
 			render 'new'
 		end
 	end
 
 	def destroy
 		cookies.delete(:auth_token)
-		redirect_to root_path, notice: "Logged out"
+		flash[:success] = "Logged out. See you soon!"
+		redirect_to root_path
 	end
 end

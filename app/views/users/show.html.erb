@@ -12,6 +12,7 @@
 		<% @posts.each do |post| %>
 			<%= render 'posts/summary', post: post %>
 		<% end %>
+		<%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
 	</div>
 
 </div>

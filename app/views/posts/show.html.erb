@@ -2,7 +2,7 @@
 <p><%= @post.body %></p>
 <p>Posted by <%= link_to @post.user.name, @post.user %></p>
 
-<% if correct_user? %>
+<% if correct_user? @post.user %>
 	<%= link_to "Edit", edit_post_path %>
 	<%= link_to "Delete", post_path, method: :delete %>
 <% end %>

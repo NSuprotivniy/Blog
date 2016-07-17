@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
 	def show
 		@user = User.find(params[:id])
-		@posts = @user.posts.all.order("created_at DESC")
+		@posts = @user.posts.paginate(page: params[:page], per_page: 20).order("created_at DESC")
 	end
 
 	def new
@@ -20,9 +20,9 @@ class UsersController < ApplicationController
 
 		if @user.save
 			cookies.permanent[:auth_token] = @user.auth_token
-			redirect_to root_path, notice: "Welcome aboard!"
+			flash[:success] = "Welcome aboard!"
+			redirect_to root_path
 		else
-			flash.now.alert = "Invalid"
 			render "new"
 		end
 	end
@@ -33,9 +33,9 @@ class UsersController < ApplicationController
 	def update
 
 		if current_user.update(user_params)
-			redirect_to current_user, notice: "Updated"
+			flash[:success] = "Updated"
+			redirect_to current_user
 		else
-			flash.now.alert = "Invalid"
 			render "edit"
 		end
 	end

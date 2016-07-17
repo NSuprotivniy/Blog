@@ -5,15 +5,18 @@ module SessionsHelper
   end
 
 	def authenticate!
-		redirect_to signin_path, notice: "Please sign in" unless current_user
+		unless current_user
+			flash[:warning] = "Please sign in"
+			redirect_to signin_path
+		end
 	end
 
 	def signed_in?
 		!current_user.nil?
 	end
 
-	def correct_user?
-		current_user == User.find(params[:id])
+	def correct_user?(user = User.find(params[:id]))
+		current_user == user
 	end
 
 	def correct_user!
