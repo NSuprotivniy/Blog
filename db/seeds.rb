@@ -6,20 +6,22 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-100.times do |n|
+50.times do |n|
   name  = Faker::Name.name
   email = "example_#{n}@example.com"
   password = "password"
   User.create!(	
-  							name:  name,
-               	email: email,
-               	password:              password,
-               	password_confirmation: password
-              )
+		name:  name,
+   	email: email,
+   	password:              password,
+   	password_confirmation: password
+  )
 end
 
-users = User.order(:created_at)
-10.times do
+puts "  Users created"
+
+users = User.all.shuffle.take(20)
+2.times do
   users.each do |user| 
   	user.posts.create!(
   		title: Faker::Book.title, 
@@ -27,3 +29,21 @@ users = User.order(:created_at)
   	)
   end
 end
+
+puts " Posts created"
+
+posts = Post.all
+users = User.all.shuffle.take(10)
+posts.each do |post|
+  5.times do
+    users.each do |user|
+      comment = post.comments.build(body: Faker::Hipster.paragraph(2, true))
+      comment.user = user
+      comment.save!
+    end
+  end
+end
+
+puts "  Comments created"
+
+puts "  Done!"

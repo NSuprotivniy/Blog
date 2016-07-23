@@ -1,0 +1,8 @@
+<%= form_for [@post, @comment], class: "form-group" do |f| %>
+	<div class="form-group">
+		<%= f.text_area :body, placeholder: "Comment", class: "form-control" %>
+	</div>
+	<div class="form-group">
+		<%= f.submit "Save comment", class: "btn btn-default" %>
+	</div>
+<% end %>

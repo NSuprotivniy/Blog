@@ -2,6 +2,7 @@ class PostsController < ApplicationController
 
 	before_action :authenticate!, except: [:index, :show]
 	before_action :find_post, only: [:show, :edit, :update, :destroy]
+	before_action :correct_post_user!, only: [:edit, :update, :destroy]
 
 	def index 
 		@posts = Post.paginate(page: params[:page], per_page: 20).order("created_at DESC")
@@ -24,6 +25,8 @@ class PostsController < ApplicationController
 
 
 	def show
+		@comments = @post.comments.paginate(page: params[:comment_page], per_page: 20).order("created_at DESC")
+		@comment = @post.comments.new
 	end
 
 	def edit
@@ -52,5 +55,4 @@ class PostsController < ApplicationController
 	def find_post
 		@post = Post.find(params[:id])
 	end
-
 end
