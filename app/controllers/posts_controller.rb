@@ -13,14 +13,20 @@ class PostsController < ApplicationController
 	end
 
 	def create
+
 		@post = current_user.posts.build(post_params)
 
-		if @post.save
+		@pictures = build_pictures @post
+
+		if @post.save && @pictures.all? {|pic| pic.save}
 			flash[:success] = "Looks great!"
 			redirect_to @post
 		else
+			@pictures.each {|pic| pic.destroy}
 			render 'new'
 		end
+
+		
 	end
 
 
@@ -33,10 +39,14 @@ class PostsController < ApplicationController
 	end
 
 	def update
-		if @post.update(post_params)
+
+		@pictures = build_pictures @post
+
+		if @post.update(post_params) && !@pictures || @pictures.all? {|pic| pic.save}
 			flash[:success] = "Looks great!"
 			redirect_to @post
 		else
+			@pictures.each {|pic| pic.destroy}
 			render 'edit'
 		end
 	end
@@ -55,4 +65,18 @@ class PostsController < ApplicationController
 	def find_post
 		@post = Post.find(params[:id])
 	end
+
+	def build_pictures(post)
+		pictures = []
+
+		if params[:images]
+			params[:images].each do |image|
+				pictures << post.pictures.build(image: image)
+			end
+		end
+
+		pictures
+	end
+
+
 end

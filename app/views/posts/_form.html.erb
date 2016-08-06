@@ -1,0 +1,39 @@
+<%= form_for @post, class: "form-group", html: { multipart: true } do |f| %>
+	
+	<%= render 'shared/error_messages', object: @post %>
+
+	<div class="form-group">
+		<%= f.text_field :title, placeholder: "Title", class: "form-control" %>
+	</div>
+
+	<div class="form-group">
+		<%= f.text_area :body, placeholder: "Content", size: "60x20", class: "form-control" %> </br>
+	</div>
+
+	<div class="container-fluid">
+		<div class="thumbnails" id="img_thumbnails">
+			<% @post.pictures.each_slice(3) do |pic_slice| %>
+				<div class="row">
+					<% pic_slice.each do |pic| %>
+						<div class="col-xs-4 thumbnail" id="pic-<%= pic.id %>">
+								<%= image_tag pic.image.url(:medium), class: "img-responsive" %>
+								<%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), pic, method: :delete, remote: true, class: "caption close" %>
+						</div>
+					<% end %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="btn btn-default btn-file hover">
+			Browse images...
+			<%= file_field_tag "images[]", type: :file, multiple: true, slyle: "display: none;", id: "imgInp" %>
+		</label>
+	</div>
+
+	<%= f.submit "Save it!", class: "btn btn-default" %>
+
+<% end %>
+
+

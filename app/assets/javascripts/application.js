@@ -13,5 +13,48 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
+//= require jquery-fileupload/basic
 //= require turbolinks
 //= require_tree .
+
+
+
+////////////////////////////////////////////////////////////////
+// File upload 
+////////////////////////////////////////////////////////////////
+
+function readURL(input) {
+    if (input.files) {
+    
+    		
+        var $container = $('#img_thumbnails');    
+
+        $('.new_image').remove();
+        
+    		for (var i = 0; i < input.files.length; i++) {
+
+        	var reader = new FileReader();
+          
+        	reader.onload = function (e) {
+        		$container.append(
+        			'<div class="col-xs-4 thumbnail new_image">' +
+        				'<img src="'+ e.target.result + '" class="img-responsive" />' +
+        			'</div>'
+        		);
+        	}
+        
+          reader.readAsDataURL(input.files[i]);
+        }
+    }
+}
+
+function ready(){	
+
+	$("#imgInp").change(function(){
+	    readURL(this);
+	});
+}
+
+///////////////////////////////////////////////////////////////
+
+$(document).on('turbolinks:load', ready);

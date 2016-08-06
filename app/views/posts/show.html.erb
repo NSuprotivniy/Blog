@@ -1,18 +1,29 @@
 <h1><%= @post.title %></h1>
-<p><%= @post.body %></p>
-<p>Posted by <%= link_to @post.user.name, @post.user %></p>
+<div class="row">
 
-<% if correct_user? @post.user %>
-	<%= link_to "Edit", edit_post_path %>
-	<%= link_to "Delete", post_path, method: :delete %>
-<% end %>
+	<% @post.pictures.each do |pic| %>
+		<%= image_tag pic.image.url, class: "img-responsive col-md-4", 
+																 style: "padding: 10px" %>
+	<% end %>
+</div>
+<div class="row">
+	<p><%= @post.body %></p>
+	<p>Posted by <%= link_to @post.user.name, @post.user %></p>
 
+	<% if correct_user? @post.user %>
+		<%= link_to "Edit", edit_post_path %>
+		<%= link_to "Delete", post_path, method: :delete %>
+	<% end %>
+</div>
 
-<h3>Comments</h3>
+<div class="row">
 
-<%= render 'comments/form' %>
+	<h3>Comments</h3>
 
-<% @comments.each do |comment| %>
-	<%= render comment %>
-<% end %>
-<%= will_paginate @comments, renderer: BootstrapPagination::Rails %>
+	<%= render 'comments/form' %>
+
+	<% @comments.each do |comment| %>
+		<%= render comment %>
+	<% end %>
+	<%= will_paginate @comments, renderer: BootstrapPagination::Rails %>
+</div>
