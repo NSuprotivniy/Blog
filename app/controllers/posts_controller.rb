@@ -4,7 +4,8 @@ class PostsController < ApplicationController
 	before_action :find_post, only: [:show, :edit, :update, :destroy]
 	before_action :correct_post_user!, only: [:edit, :update, :destroy]
 
-	def index 
+
+	def index
 		@posts = Post.paginate(page: params[:page], per_page: 20).order("created_at DESC")
 	end
 
@@ -16,17 +17,17 @@ class PostsController < ApplicationController
 
 		@post = current_user.posts.build(post_params)
 
-		@pictures = build_pictures @post
+		# @pictures = build_pictures @post
 
-		if @post.save && @pictures.all? {|pic| pic.save}
+		if @post.save # && @pictures.all? {|pic| pic.save}
 			flash[:success] = "Looks great!"
 			redirect_to @post
 		else
-			@pictures.each {|pic| pic.destroy}
+			# @pictures.each {|pic| pic.destroy}
 			render 'new'
 		end
 
-		
+
 	end
 
 
@@ -40,13 +41,13 @@ class PostsController < ApplicationController
 
 	def update
 
-		@pictures = build_pictures @post
+		# @pictures = build_pictures @post
 
-		if @post.update(post_params) && !@pictures || @pictures.all? {|pic| pic.save}
+		if @post.update(post_params) # && !@pictures || @pictures.all? {|pic| pic.save}
 			flash[:success] = "Looks great!"
 			redirect_to @post
 		else
-			@pictures.each {|pic| pic.destroy}
+			# @pictures.each {|pic| pic.destroy}
 			render 'edit'
 		end
 	end
@@ -56,7 +57,7 @@ class PostsController < ApplicationController
 		redirect_to root_path
 	end
 
-	private 
+	private
 
 	def post_params
 		params.require(:post).permit(:title, :body)
@@ -66,17 +67,17 @@ class PostsController < ApplicationController
 		@post = Post.find(params[:id])
 	end
 
-	def build_pictures(post)
-		pictures = []
+	# def build_pictures(post)
+	# 	pictures = []
 
-		if params[:images]
-			params[:images].each do |image|
-				pictures << post.pictures.build(image: image)
-			end
-		end
+	# 	if params[:images]
+	# 		params[:images].each do |image|
+	# 			pictures << post.pictures.build(image: image)
+	# 		end
+	# 	end
 
-		pictures
-	end
+	# 	pictures
+	# end
 
 
 end

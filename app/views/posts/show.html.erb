@@ -1,13 +1,22 @@
-<h1><%= @post.title %></h1>
+
 <div class="row">
+	<h1><%= @post.title %></h1>
+</div>
+
+<!--
+<% if false %>
+ <div class="row">
 
 	<% @post.pictures.each do |pic| %>
-		<%= image_tag pic.image.url, class: "img-responsive col-md-4", 
-																 style: "padding: 10px" %>
-	<% end %>
+		<%= image_tag pic.image.url, class: "img-responsive col-md-4", style: "padding: 10px" %>
+	<%  end %>
 </div>
+<% end %>
+ -->
+
+
 <div class="row">
-	<p><%= @post.body %></p>
+	<p><%= raw @post.body %></p>
 	<p>Posted by <%= link_to @post.user.name, @post.user %></p>
 
 	<% if correct_user? @post.user %>
@@ -26,4 +35,5 @@
 		<%= render comment %>
 	<% end %>
 	<%= will_paginate @comments, renderer: BootstrapPagination::Rails %>
+
 </div>

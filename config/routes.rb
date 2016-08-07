@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   
+  mount RedactorRails::Engine => '/redactor_rails'
   resources :users, except: [:index]
   resources :sessions, only: [:new, :create, :destroy]
   resources :pictures

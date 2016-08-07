@@ -19,6 +19,9 @@ gem 'will_paginate-bootstrap', '~> 1.0', '>= 1.0.1'
 
 gem 'paperclip', '~> 4.3', '>= 4.3.6'
 gem 'jquery-fileupload-rails'
+gem 'redactor-rails'
+gem "carrierwave"
+gem "mini_magick"
 
 gem 'faker', '~> 1.6', '>= 1.6.3'
 
