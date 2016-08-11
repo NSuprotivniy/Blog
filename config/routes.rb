@@ -1,14 +1,21 @@
 Rails.application.routes.draw do
 
-  
+
   mount RedactorRails::Engine => '/redactor_rails'
-  resources :users, except: [:index]
+
+  resources :users, except: [:index] do
+  end
+
+  resources :password_reset
+
   resources :sessions, only: [:new, :create, :destroy]
+
   resources :pictures
+
   resources :posts do
     resources :comments
   end
-  
+
 
   root 'posts#index'
 

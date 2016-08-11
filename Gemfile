@@ -25,6 +25,8 @@ gem "mini_magick"
 
 gem 'faker', '~> 1.6', '>= 1.6.3'
 
+gem 'figaro', '~> 1.1', '>= 1.1.1'
+
 
 group :development, :test do
   gem 'byebug'

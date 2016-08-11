@@ -10,7 +10,7 @@
   name  = Faker::Name.name
   email = "example_#{n}@example.com"
   password = "password"
-  User.create!(	
+  User.create!(
 		name:  name,
    	email: email,
    	password:              password,
@@ -22,10 +22,10 @@ puts "  Users created"
 
 users = User.all.shuffle.take(20)
 2.times do
-  users.each do |user| 
+  users.each do |user|
   	user.posts.create!(
-  		title: Faker::Book.title, 
-  		body: Faker::Hipster.paragraph(10, true) 
+  		title: Faker::Book.title,
+  		body: Faker::Hipster.paragraph(10, true)
   	)
   end
 end
@@ -33,7 +33,7 @@ end
 puts " Posts created"
 
 posts = Post.all
-users = User.all.shuffle.take(10)
+users = User.all.shuffle.take(2)
 posts.each do |post|
   5.times do
     users.each do |user|

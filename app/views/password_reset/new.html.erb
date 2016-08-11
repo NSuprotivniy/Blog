@@ -1,0 +1,10 @@
+<%= form_tag password_reset_index_path, url: {action: "create"}, class: "form-group" do |f| %>
+
+
+  <div class="form-group">
+    <%= label_tag :email %>
+    <%= text_field_tag :email, params[:email], class: "form-control" %>
+  </div>
+
+  <%= submit_tag "Reset Password", class: "btn btn-default" %>
+<% end %>
