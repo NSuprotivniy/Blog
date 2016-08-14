@@ -31,8 +31,20 @@ class User < ActiveRecord::Base
   end
 
   def delete_password_reset_attr
-    self.password_reset_token = ""
+    self.password_reset_token = nil
     self.password_reset_sent_at = Time.at(0)
+    save!
+  end
+
+  def send_email_confirmation
+    generate_token(:email_confirmation_token)
+    save!
+    UserMailer.email_confirmation(self).deliver
+  end
+
+  def confirm_email
+    self.email_confirmed = true
+    self.email_confirmation_token = nil
     save!
   end
 

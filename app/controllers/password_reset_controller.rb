@@ -40,8 +40,7 @@ class PasswordResetController < ApplicationController
 
       @user.delete_password_reset_attr
 
-      @user.authenticate(user_params[:password])
-      cookies.permanent[:auth_token] = @user.auth_token
+      sign_in @user, user_params[:password]
 
       flash[:success] = "Password has been reset!"
       redirect_to root_url

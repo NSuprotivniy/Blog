@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   mount RedactorRails::Engine => '/redactor_rails'
 
   resources :users, except: [:index] do
+    member do
+      get :email_confirmation
+    end
   end
 
   resources :password_reset

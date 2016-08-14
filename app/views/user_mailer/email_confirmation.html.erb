@@ -1,0 +1,6 @@
+<h1>Welcome to Blog, <%= @user.name %>!</h1>
+
+<p>
+  Before you start <%= link_to "verify your email",
+  email_confirmation_user_url(@user.email_confirmation_token) %> please.
+</p>

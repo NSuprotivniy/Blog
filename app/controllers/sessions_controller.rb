@@ -6,9 +6,15 @@ class SessionsController < ApplicationController
 	def create
 		@user = User.find_by_email(params[:session][:email])
 
-		if @user && @user.authenticate(params[:session][:password])
-			cookies.permanent[:auth_token] = @user.auth_token
-			flash[:success] = "Welcome!"
+		if @user && sign_in(@user, params[:session][:password])
+				if @user.email_confirmed
+					flash[:success] = "Welcome!"
+				else
+					flash[:warning] = "Please activate your account by following the
+        											instructions in the account confirmation email
+        											you received to proceed"
+				end
+
 			redirect_back_or root_path
 		else
 			flash.now[:danger] = "Invalid email or password"

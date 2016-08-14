@@ -1,0 +1,4 @@
+Welcome to Blog, <%= @user.name %>!
+
+Before you start verify your email please:
+<%= email_confirmation_user_url(@user.email_confirmation_token) %>.

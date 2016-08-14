@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-	before_action :authenticate!, except: [:index, :show, :new, :create]
+	before_action :authenticate!, except: [:index, :show, :new, :create, :email_confirmation]
 	before_action :correct_user!, only: [:edit, :update, :destroy]
 
 	def index
@@ -18,9 +18,9 @@ class UsersController < ApplicationController
 	def create
 		@user = User.new(user_params)
 
-		if @user.save
-			cookies.permanent[:auth_token] = @user.auth_token
-			flash[:success] = "Welcome aboard!"
+		if @user.save && sign_in(@user, user_params[:password])
+			@user.send_email_confirmation
+			flash[:success] = "Welcome aboard! Please confirm your email before you start."
 			redirect_to root_path
 		else
 			render "new"
@@ -44,6 +44,22 @@ class UsersController < ApplicationController
 		current_user.destroy
 		cookies.delete(:auth_token)
 		redirect_to root_path
+	end
+
+	def email_confirmation
+		@user = User.find_by_email_confirmation_token(params[:id])
+
+		if @user && @user.confirm_email
+			flash[:success] = "Welcome to Blog! You have successfuly confirmed your email."
+			if signed_in?
+				redirect_to root_path
+			else
+				redirect_to new_session_path
+			end
+		else
+			flash[:danger] = "Invalid email confirmation link."
+			redirect_to root_path
+		end
 	end
 
 

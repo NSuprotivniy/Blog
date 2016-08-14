@@ -16,6 +16,16 @@ module SessionsHelper
 		!current_user.nil?
 	end
 
+	def sign_in user, password
+		if @user.authenticate(password)
+	    cookies.permanent[:auth_token] = @user.auth_token
+	    @user
+	  else
+	  	nil
+	  end
+  end
+
+
 	def correct_user?(user = User.find(params[:id]))
 		current_user == user
 	end
@@ -23,7 +33,7 @@ module SessionsHelper
 	def correct_user!(user = User.find(params[:id]))
 		unless correct_user? user
 			flash[:danger] = "You have no access"
-			redirect_to :back 
+			redirect_to :back
 	  end
 	  rescue ActionController::RedirectBackError
 	  	redirect_to root_path
