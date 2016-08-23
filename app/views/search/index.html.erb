@@ -1,5 +1,5 @@
 <% @posts.each do |post| %>
-	<%= render 'posts/summary', post: post %>
-	<p>Posted by <%= link_to post.user.name, post.user %></p>
+  <%= render 'posts/summary', post: post %>
+  <p>Posted by <%= link_to post.user.name, post.user %></p>
 <% end %>
 <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>

@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160812081906) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "post_id"
@@ -21,8 +24,8 @@ ActiveRecord::Schema.define(version: 20160812081906) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "comments", ["post_id"], name: "index_comments_on_post_id"
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
+  add_index "comments", ["post_id"], name: "index_comments_on_post_id", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.integer  "post_id"
@@ -42,7 +45,7 @@ ActiveRecord::Schema.define(version: 20160812081906) do
     t.integer  "user_id"
   end
 
-  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "redactor_assets", force: :cascade do |t|
     t.string   "data_file_name",               null: false
@@ -57,8 +60,8 @@ ActiveRecord::Schema.define(version: 20160812081906) do
     t.datetime "updated_at"
   end
 
-  add_index "redactor_assets", ["assetable_type", "assetable_id"], name: "idx_redactor_assetable"
-  add_index "redactor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_redactor_assetable_type"
+  add_index "redactor_assets", ["assetable_type", "assetable_id"], name: "idx_redactor_assetable", using: :btree
+  add_index "redactor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_redactor_assetable_type", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -73,6 +76,8 @@ ActiveRecord::Schema.define(version: 20160812081906) do
     t.boolean  "email_confirmed",          default: false
   end
 
-  add_index "users", ["email"], name: "index_users_on_email"
+  add_index "users", ["email"], name: "index_users_on_email", using: :btree
 
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
 end

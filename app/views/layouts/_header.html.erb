@@ -17,6 +17,14 @@
 		    <ul class="nav navbar-nav">
 	        <li><%= link_to "New Post", new_post_path %></li>
 	      </ul>
+
+						<%= form_tag search_index_path, method: :get, role: 'search', class: "navbar-form navbar-left" do %>
+							<div class="form-group">
+								<%= text_field_tag :query, params[:query], placeholder: 'Search', class: 'form-control' %>
+	  						<%= submit_tag "Search", class: "btn btn-default" %>
+	  					</div>
+						<% end %>
+
 	      <ul class="nav navbar-nav navbar-right">
 	      	<% if signed_in? %>
 	      		<li><%= link_to "Account", current_user %></li>
